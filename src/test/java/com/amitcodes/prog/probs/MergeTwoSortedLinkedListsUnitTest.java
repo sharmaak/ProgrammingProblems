@@ -13,17 +13,34 @@ import java.util.logging.Logger;
 public class MergeTwoSortedLinkedListsUnitTest
 {
     Logger logger = Logger.getLogger(MergeTwoSortedLinkedListsUnitTest.class.getCanonicalName());
+
     @Test
     public void testMergeRecursive() {
         SinglyLinkedListNode<Integer>
-                node1 = createLinkedLists(3),
-                node2 = createLinkedLists(4);
+                node1 = createLinkedLists(3, 100),
+                node2 = createLinkedLists(4, 100);
 
         logLinkedList("list1", node1);
         logLinkedList("list2", node2);
 
         SinglyLinkedListNode<Integer> result =
                 new MergeTwoSortedLinkedLists<Integer>().mergeRecursive(node1, node2);
+
+        logLinkedList("result", result);
+        verifySorted(result);
+    }
+
+    @Test
+    public void testMergeIterative() {
+        SinglyLinkedListNode<Integer>
+                node1 = createLinkedLists(4, 100),
+                node2 = createLinkedLists(10, 100);
+
+        logLinkedList("list1", node1);
+        logLinkedList("list2", node2);
+
+        SinglyLinkedListNode<Integer> result =
+                new MergeTwoSortedLinkedLists<Integer>().mergeIterative(node1, node2);
 
         logLinkedList("result", result);
         verifySorted(result);
@@ -45,12 +62,12 @@ public class MergeTwoSortedLinkedListsUnitTest
 
     }
 
-    private SinglyLinkedListNode<Integer> createLinkedLists(int size) {
+    private SinglyLinkedListNode<Integer> createLinkedLists(int size, int maxIntVal) {
         // generate N random integers
         List<Integer> data = new ArrayList<>(size);
         Random rand = new Random();
         for (int i=0; i<size; i++) {
-            data.add(rand.nextInt());
+            data.add(rand.nextInt(maxIntVal));
         }
 
         // Sort the generated random integers
